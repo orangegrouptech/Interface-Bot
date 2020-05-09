@@ -1,0 +1,23 @@
+{
+  "name": "Project-MultiFeatureBot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechGeekGamer/Project-MultiFeatureBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TechGeekGamer/Project-MultiFeatureBot/issues"
+  },
+  "homepage": "https://github.com/TechGeekGamer/Project-MultiFeatureBot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  }
+}
