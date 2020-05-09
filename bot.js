@@ -15,61 +15,8 @@ const {
 } = require('discord.js')
 
 version = '1.0.0'
-footerText = `${version}`
-
-//Code below
-respond = function(title, content, footer, destination, color){
-    try{
-       var RespondEmbed = new Discord.MessageEmbed()
-		RespondEmbed.setTitle(title)
-		RespondEmbed.setDescription(content)
-		if(!destination || destination == '' ){
-			throw 'Missing Arguments.'
-		}else{
-			RespondEmbed.setFooter(footer + footerText)
-			if(color && !color == ''){
-				RespondEmbed.setColor(color)
-			}
-			destination.send(RespondEmbed)
-			} 
-    }catch(err){
-        throw err
-    }
-    
-}
-
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-const allCommandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-		if(!command.mod){
-			client.commands.set(command.name, command);
-		}
-	}
-
-//Commands
-client.on('message', async message => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-		const args = message.content.slice(prefix.length).split(/ +/);
-		const commandName = args.shift().toLowerCase();
-		const command = client.commands.get(commandName)
-			|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-	//Not a command
-	if (!command) {
-		return;
-	}
-	//OK
-	try {
-		command.execute(message, args, client, this);
-	} catch (error) {
-		console.error(error);
-		respond('Error', 'Something went wrong.\n'+error, message.channel)
-		
-	}
-});
-
-
+//footerText = `Version ${version}`
+footerText = `Debug Mode`
 
 //Bot ready
 client.once('ready', () => {
@@ -84,4 +31,59 @@ client.once('ready', () => {
 
 });
 
+//Response Embed
+respond = function(title, content, footer, destination, color){
+    try{
+       var RespondEmbed = new Discord.MessageEmbed()
+		RespondEmbed.setTitle(title)
+		RespondEmbed.setDescription(content)
+		if(!destination || destination == '' ){
+			throw `Missing Arguments.`
+		}else{
+			RespondEmbed.setFooter(footer + footerText)
+			if(color && !color == ''){
+				RespondEmbed.setColor(color)
+			}
+			destination.send(RespondEmbed).then(message =>{
+				return message //Returns the message object
+			})
+		} 
+    }catch(err){
+        throw err
+    }
+    
+}
+
+//Commands
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+		if(!command.mod){
+			client.commands.set(command.name, command);
+		}
+	}
+client.on('message', async message => {
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
+		const args = message.content.slice(prefix.length).split(/ +/);
+		const commandName = args.shift().toLowerCase();
+		const command = client.commands.get(commandName)
+			|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	if (!command) {
+		return;
+	}
+	if(command.staff == true && !message.member.roles.cache.some(role => role.id === `${staffRoleID}`)){
+		respond('', `Incorrect permissions. Required role: <@&${staffRoleID}>`, '', message.channel);
+		return;
+	}
+	try {
+		command.execute(message, args, client, this);
+	} catch (error) {
+		console.error(error);
+		respond('','Error: '+error, '',message.channel, 'ff0000')
+	}
+});
+
+
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 client.login(token)
