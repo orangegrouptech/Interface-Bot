@@ -18,7 +18,7 @@ version = '1.0.0'
 //footerText = `Version ${version}`
 footerText = `Debug Mode`
 
-//Bot ready
+//Bot Startup
 client.once('ready', () => {
 	console.log('Version '+version)
     console.log('Ready.');
@@ -31,14 +31,16 @@ client.once('ready', () => {
 
 });
 
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+
 //Response Embed
-respond = function(title, content, footer, destination, color){
+reply = function(title, content, footer, destination, color){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
 		RespondEmbed.setDescription(content)
 		if(!destination || destination == '' ){
-			throw `Missing Arguments.`
+			throw `Invalid Arguments.`
 		}else{
 			RespondEmbed.setFooter(footer + footerText)
 			if(color && !color == ''){
@@ -52,6 +54,24 @@ respond = function(title, content, footer, destination, color){
         throw err
     }
     
+}
+
+//Respond compatibility
+respond = function (title, content, sendto, color, footer, imageurl){
+	console.log(`WARNING: You are currently using old code. (respond)`);
+	console.log(`WARNING: Please update your code.`);
+	reply(title, content, footer, sendto, color)
+}
+
+//Error Logging
+error = function (error){
+	const errorReportEmbed = new Discord.MessageEmbed()
+		.setColor('#FF0000')
+		.setTitle('Bot Error')
+		.setDescription(error)
+		.setTimestamp()
+		.setFooter(footerText)
+		client.channels.cache.get(`${botLog}`).send(errorReportEmbed);
 }
 
 //Commands
@@ -84,6 +104,5 @@ client.on('message', async message => {
 	}
 });
 
-
-process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+//Client Login
 client.login(token)
