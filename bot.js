@@ -56,10 +56,17 @@ reply = function(title, content, footer, destination, color){
     
 }
 
-//Respond compatibility
+//Respond backward compatibility
 respond = function (title, content, sendto, color, footer, imageurl){
 	console.log(`WARNING: You are currently using old code. (respond)`);
 	console.log(`WARNING: Please update your code.`);
+	console.log(`WARNING: This backward compatibility will be removed eventually.`);
+	if(!color){
+		var color = ''
+	}
+	if(!footer){
+		var footer = ''
+	}
 	reply(title, content, footer, sendto, color)
 }
 
