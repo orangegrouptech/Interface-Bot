@@ -1,0 +1,136 @@
+[
+    {
+        "cryptogram" : "14.11.33.24.15.31.35.42.34.22.42.11.32.32.15.14.11.35.35.31.15.32.34.14",
+        "cryptoid" : "1",
+        "cryptsystem" : "Polybius Square",
+        "decryptedcase": "DANIELPROGRAMMEDAPPLEMOD",
+        "decrypted": "danielprogrammedapplemod"
+    },
+    {
+        "cryptogram" : "RWTHORDLKQYCPNKMPN",
+        "cryptoid" : "2",
+        "cryptsystem" : "Playfair Cipher",
+        "key" : "GAMEOVR",
+        "decryptedcase": "APPLEMODISSENTIENT",
+        "decrypted": "applemodissentient"
+    },
+    {
+        "cryptogram" : "IEBLOOLVTTESARWK",
+        "cryptoid" : "3",
+        "cryptsystem" : "Scytale Cipher",
+        "decryptedcase": "BOTSWILLTAKEOVER",
+        "decrypted": "botswilltakeover"
+    },
+    {
+        "cryptogram" : "KLGHIURPWKHVKSGRZV",
+        "cryptoid" : "4",
+        "cryptsystem" : "Caesar Shift",
+        "decryptedcase": "HIDEFROMTHESHADOWS",
+        "decrypted": "hidefromtheshadows"
+    },
+    {
+        "cryptogram" : "aQrXRQxc06yPRbf5PTahHQ==",
+        "cryptoid" : "5",
+        "cryptsystem" : "Blowfish Code",
+        "key" : "LinusOK",
+        "decryptedcase": "HIDEFROMTHESHADOWS",
+        "decrypted": "hidefromtheshadows"
+    },
+    {
+        "cryptogram" : "UEQGQSMSEYEGGGGGGGGGGGWE",
+        "cryptoid" : "6",
+        "cryptsystem" : "Affine Code",
+        "a_parameter" : "2",
+        "b_parameter" : "4",
+        "decryptedcase": "INTOTHEUNKNOOOOOOOOOOOWN",
+        "decrypted": "hidefromtheshadows"
+    },
+    {
+        "cryptogram" : "APWIRISLEG",
+        "cryptoid" : "7",
+        "cryptsystem" : "Vigenère Square Cipher",
+        "key" : "clearwarn",
+        "decryptedcase": "YESIAMSURE",
+        "decrypted": "yesiamsure"
+    },
+    {
+        "cryptogram" : "TSIJUAQPFRVURXGPNTKJJPLDTIFZSJSKQUSOYOLVPONRTYQKGNXEEKRSEYTFRBZFLNECNRPFRXQ",
+        "cryptoid" : "8",
+        "cryptsystem" : "Vigenère Square Cipher",
+        "key" : "alarmisblaring",
+        "decryptedcase": "THISISYOUREMERGENCYBROADCASTSYSTEMANNOUNCINGTHECOMMENCEMENTOFTHEANNUALPURGE",
+        "decrypted": "thisisyouremergencybroadcastsystemannouncingthecommencementoftheannualpurge"
+    },
+    {
+        "cryptogram" : "1011001 1001111 1010101 1000110 1001111 1010101 1001110 1000100 1001101 1000101",
+        "cryptoid" : "9",
+        "cryptsystem" : "Computer Binary Code",
+        "decryptedcase": "YOUFOUNDME",
+        "decrypted": "youfoundme"
+    },
+    {
+        "cryptogram" : "NRXILHLUGRHXZKRGZORHG",
+        "cryptoid" : "10",
+        "cryptsystem" : "Atbash Cipher",
+        "decryptedcase": "MICROSOFTISCAPITALIST",
+        "decrypted": "microsoftiscapitalist"
+    },
+    {
+        "cryptogram" : "EMSPOTSGNIHTON",
+        "cryptoid" : "11",
+        "cryptsystem" : "Inverted/Reverse Cipher",
+        "decryptedcase": "NOTHINGSTOPSME",
+        "decrypted": "nothingstopsme"
+    },
+    {
+        "cryptogram" : "NRXILHLUGRHXZKRGZORHG",
+        "cryptoid" : "12",
+        "cryptsystem" : "Atbash Cipher",
+        "decryptedcase": "MICROSOFTISCAPITALIST",
+        "decrypted": "microsoftiscapitalist"
+    },
+    {
+        "cryptogram" : "HQFHPQZXZBSSIQ",
+        "cryptoid" : "13",
+        "cryptsystem" : "Two Letter Switcharoo Cipher",
+        "decryptedcase": "GREGORYWYATTJR",
+        "decrypted": "gregorywyattjr"
+    },
+    {
+        "cryptogram" : ".... . .-.. .--. -- .",
+        "cryptoid" : "14",
+        "cryptsystem" : "Morse Code",
+        "decryptedcase": "HELPME",
+        "decrypted": "helpme"
+    },
+    {
+        "cryptogram" : "MCMXVII",
+        "cryptoid" : "15",
+        "cryptsystem" : "Roman Numerals",
+        "decryptedcase": "1917",
+        "decrypted": "1917"
+    },
+    {
+        "cryptogram" : "1n707h3unkn00000wn",
+        "cryptoid" : "16",
+        "cryptsystem" : "Leetspeak Cipher",
+        "decryptedcase": "INTOTHEUNKNOOOOOWN",
+        "decrypted": "intotheunknooooown"
+    },
+    {
+        "cryptogram" : "KOLWLCLOLCKBRPKBMW",
+        "cryptoid" : "17",
+        "cryptsystem" : "Playfair Cipher",
+        "key" : "helth",
+        "decryptedcase": "INEEDAMEDICQUICK",
+        "decrypted": "ineedamedicquick"
+    },
+    {
+        "cryptogram" : "AEKQAIEAUAQQMQM",
+        "cryptoid" : "18",
+        "cryptsystem" : "Rotation Cipher",
+        "a_parameter" : "4",
+        "decryptedcase": "NOWEAPONSNEEDED",
+        "decrypted": "noweaponsneeded"
+    }
+]
