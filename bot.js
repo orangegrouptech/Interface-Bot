@@ -1,5 +1,6 @@
 console.log('Loading, please wait a moment.')
 fs = require('fs');
+colors = require('colors')
 Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -35,6 +36,7 @@ process.on('unhandledRejection', error => console.error('Uncaught Promise Reject
 
 //Response Embed
 reply = function(title, content, footer, destination, color){
+	console.log('Reply function.')
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -42,7 +44,7 @@ reply = function(title, content, footer, destination, color){
 		if(!destination || destination == '' ){
 			throw `Invalid Arguments.`
 		}else{
-			RespondEmbed.setFooter(footer + footerText)
+			RespondEmbed.setFooter(footer +' | '+ footerText)
 			if(color && !color == ''){
 				RespondEmbed.setColor(color)
 			}
@@ -56,11 +58,51 @@ reply = function(title, content, footer, destination, color){
     
 }
 
+prompt = async function(title, content, footer, destination, color){
+    try{
+       var RespondEmbed = new Discord.MessageEmbed()
+		RespondEmbed.setTitle(title)
+		RespondEmbed.setDescription(content)
+		if(!destination || destination == '' ){
+			throw `Invalid Arguments.`
+		}else{
+			RespondEmbed.setFooter(footer +' | '+ footerText)
+			if(color && !color == ''){
+				RespondEmbed.setColor(color)
+			}
+			destination.send(RespondEmbed).then(message =>{
+				message.react('✅').then(() => message.react('❌'));
+				const filter = (reaction, user) => {
+					return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+					};
+				
+					message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+					.then(collected => {
+						const reaction = collected.first();
+						if (reaction.emoji.name === '✅') {
+							return true;
+						}
+						if (reaction.emoji.name === '❌') {
+							return false;
+						}
+					})
+					.catch(collected => {
+						reply('', 'Something went wrong.', '', message.channel);
+						throw collected;
+					});
+			})
+		} 
+    }catch(err){
+        throw err
+    }
+    
+}
+
 //Respond backward compatibility
 respond = function (title, content, sendto, color, footer, imageurl){
-	console.log(`WARNING: You are currently using old code. (respond)`);
-	console.log(`WARNING: Please update your code.`);
-	console.log(`WARNING: This backward compatibility will be removed eventually.`);
+	console.log(colors.red(`WARNING: You are currently using old code. (respond)`));
+	console.log(colors.red(`WARNING: Please update your code.`));
+	console.log(colors.red(`WARNING: This backward compatibility will be removed eventually.`));
 	if(!color){
 		var color = ''
 	}
@@ -104,7 +146,7 @@ client.on('message', async message => {
 		return;
 	}
 	try {
-		command.execute(message, args, client, this);
+		command.execute(message, args, client);
 	} catch (error) {
 		console.error(error);
 		respond('','Error: '+error, '',message.channel, 'ff0000')
