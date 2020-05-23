@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/TechGeekGamer/Project-MultiFeatureBot#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "discord.js": "^12.2.0"
   }
 }
