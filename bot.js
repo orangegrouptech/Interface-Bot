@@ -9,8 +9,10 @@ const {
     token,
     staffRoleID,
     botLog,
-    modLog
+	modLog,
+	debugChannel
 } = require('./config.json');
+const config = require('./config.json')
 const {
 	MessageEmbed
 } = require('discord.js')
@@ -18,6 +20,10 @@ const {
 version = '1.0.0'
 //footerText = `Version ${version}`
 footerText = `Debug Mode`
+
+
+//Client Login
+client.login(token)
 
 //Bot Startup
 client.once('ready', () => {
@@ -32,11 +38,27 @@ client.once('ready', () => {
 
 });
 
-process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+debugLogging = function (text){
+	const debugLoggingEmbed = new Discord.MessageEmbed()
+		.setTitle('Debug Mode')
+		.setDescription(text)
+		.setTimestamp()
+		.setFooter(footerText)
+		client.channels.cache.get(`${config.debugChannel}`)
+		.send(debugLoggingEmbed);
+}
+
+
+process.on('unhandledRejection', error => {
+	console.error('Uncaught Promise Rejection:', error)
+	if(debugChannel){
+		debugLogging(`Uncaught Promise Rejection: ${err}`)
+	}
+});
+
 
 //Response Embed
 reply = function(title, content, footer, destination, color){
-	console.log('Reply function.')
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -58,7 +80,7 @@ reply = function(title, content, footer, destination, color){
     
 }
 
-prompt = async function(title, content, footer, destination, color){
+prompt = async function(title, content, footer, destination, color, returnFunction){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -71,31 +93,65 @@ prompt = async function(title, content, footer, destination, color){
 				RespondEmbed.setColor(color)
 			}
 			destination.send(RespondEmbed).then(message =>{
-				message.react('✅').then(() => message.react('❌'));
 				const filter = (reaction, user) => {
-					return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+					return ['✅', '❌'].includes(reaction.emoji.name) && user.id != message.author.id;
 					};
+
+				message.react('✅').then(() => message.react('❌'));
 				
 					message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
 					.then(collected => {
 						const reaction = collected.first();
 						if (reaction.emoji.name === '✅') {
-							return true;
+							returnFunction(true);
 						}
 						if (reaction.emoji.name === '❌') {
-							return false;
+							returnFunction(false);
 						}
 					})
 					.catch(collected => {
-						reply('', 'Something went wrong.', '', message.channel);
-						throw collected;
+						returnFunction('No response was found.');
 					});
 			})
 		} 
     }catch(err){
         throw err
     }
-    
+}
+
+awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor){
+    try{
+       var RespondEmbed = new Discord.MessageEmbed()
+		RespondEmbed.setTitle(title)
+		RespondEmbed.setDescription(content)
+		if(!destination || destination == '' ){
+			throw `Invalid Arguments.`
+		}else{
+			RespondEmbed.setFooter(footer +' | '+ footerText)
+			if(color && !color == ''){
+				RespondEmbed.setColor(color)
+			}
+			destination.send(RespondEmbed).then(botmessage =>{
+				const filter = response => {
+					console.log(response.content)
+					return response.content && response.author.id == messageAuthor.id
+					};
+				
+					botmessage.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+					.then(collected => {
+
+						returnFunction(collected)
+					})
+					.catch(collected => {
+						console.log(collected)
+						returnFunction('No response was found.');
+						error(collected)
+					});
+			})
+		} 
+    }catch(err){
+        throw err
+    }
 }
 
 //Respond backward compatibility
@@ -120,11 +176,13 @@ error = function (error){
 		.setDescription(error)
 		.setTimestamp()
 		.setFooter(footerText)
-		client.channels.cache.get(`${botLog}`).send(errorReportEmbed);
+		client.channels.cache.get(`${botLog}`)
+		.send(errorReportEmbed);
 }
 
 //Commands
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands')
+.filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -141,17 +199,20 @@ client.on('message', async message => {
 	if (!command) {
 		return;
 	}
+
+	if(debugChannel){
+		debugLogging(`commandName: ${command.name}\nargs: ${args}\nMessage content: ${message.content}`)
+	}
+
 	if(command.staff == true && !message.member.roles.cache.some(role => role.id === `${staffRoleID}`)){
-		respond('', `Incorrect permissions. Required role: <@&${staffRoleID}>`, '', message.channel);
+		reply('', `Incorrect permissions. Required role: <@&${staffRoleID}>`, '', message.channel);
 		return;
 	}
 	try {
 		command.execute(message, args, client);
 	} catch (error) {
 		console.error(error);
-		respond('','Error: '+error, '',message.channel, 'ff0000')
+		error(error)
 	}
 });
 
-//Client Login
-client.login(token)
