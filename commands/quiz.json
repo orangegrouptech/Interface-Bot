@@ -1,5 +1,10 @@
 [
-    {
+      {
+        "version" : "2.0.0.231",
+        "author"  : "Thomas Stefanos",
+        "ignore"  : true
+      },
+      {
         "question" : "What was the title of the first Apple Explained video?",
         "choice1" : "A. Every Mac Startup and Crash Chime",
         "choice2" : "B. 'O8 MacBook Keynote",
@@ -130,6 +135,16 @@
         "qid" : "13"
       },
       {
+        "question" : "How many moderators has the Apple Explained Discord had total?",
+        "choice1" : "A. 3",
+        "choice2" : "B. 6",
+        "choice3" : "C. 4",
+        "choice4" : "D. 5",
+        "answer" : "d",
+        "answer_case" : "D",
+        "qid" : "14"
+      },
+      {
         "question" : "What was the name of Steve Jobs' new company after he left Apple?",
         "choice1" : "A. PrEVIOUS",
         "choice2" : "B. Akapella Komputers",
@@ -240,6 +255,16 @@
         "qid" : "25"
       },
       {
+        "question" : "You get a free pass! Answer is `a`.",
+        "choice1" : "A. -",
+        "choice2" : "B. -",
+        "choice3" : "C. -",
+        "choice4" : "D. -",
+        "answer" : "a",
+        "answer_case" : "A",
+        "qid" : "26"
+      },
+      {
         "question" : "How many commits were made to the testing bot as of May 6, 2020?",
         "choice1" : "A. 332",
         "choice2" : "B. 911",
@@ -278,6 +303,16 @@
         "answer" : "d",
         "answer_case" : "D",
         "qid" : "30"
+      },
+      {
+        "question" : "Did Greg (Apple Explained) create a music video?",
+        "choice1" : "A. Yes",
+        "choice2" : "B. No",
+        "choice3" : "C. -",
+        "choice4" : "D. -",
+        "answer" : "a",
+        "answer_case" : "A",
+        "qid" : "31"
       },
       {
         "question" : "All of them are status messages for DebugBot EXCEPT:",
@@ -320,6 +355,16 @@
         "qid" : "35"
       },
       {
+        "question" : "Was the Apple Explained Discord server always a public server?",
+        "choice1" : "A. Yes",
+        "choice2" : "B. No",
+        "choice3" : "C. -",
+        "choice4" : "D. -",
+        "answer" : "b",
+        "answer_case" : "B",
+        "qid" : "36"
+      },
+      {
         "question" : "When were voice channels removed from the Apple Explained server?",
         "choice1" : "A. May 1, 2020",
         "choice2" : "B. March 29, 2020",
@@ -328,6 +373,16 @@
         "answer" : "a",
         "answer_case" : "A",
         "qid" : "37"
+      },
+      {
+        "question" : "Which of these does **not** exist?",
+        "choice1" : "A. Apple Explained Subreddit",
+        "choice2" : "B. Apple Explained Website",
+        "choice3" : "C. Apple Explained Wiki",
+        "choice4" : "D. Apple Explained GitHub",
+        "answer" : "d",
+        "answer_case" : "D",
+        "qid" : "38"
       },
       {
         "question" : "What year did Apple release the Macintosh IIcx?",
@@ -440,6 +495,16 @@
         "qid" : "49"
       },
       {
+        "question" : "What product has Apple **not** made?",
+        "choice1" : "A. iTV",
+        "choice2" : "B. Apple Watch",
+        "choice3" : "C. iPad",
+        "choice4" : "D. iPhone ",
+        "answer" : "a",
+        "answer_case" : "A",
+        "qid" : "50"
+      },
+      {
         "question" : "What Digital Audio Workstation does most music producers use?",
         "choice1" : "A. FruityLoops (FL) Studio",
         "choice2" : "B. Ableton Live Suite",
@@ -457,7 +522,17 @@
         "choice4" : "D. Power Error",
         "answer" : "d",
         "answer_case" : "D",
-        "qid" : "59"
+        "qid" : "52"
+      },
+      {
+        "question" : "What is the one thing 1CTF obsesses over with?",
+        "choice1" : "A. Android gadgets",
+        "choice2" : "B. Daniel's Raspberry Pi",
+        "choice3" : "C. iPods",
+        "choice4" : "D. Samsung Smart TVs",
+        "answer" : "c",
+        "answer_case" : "C",
+        "qid" : "53"
       },
       {
         "question" : "What was the first thing New Apple Moderator ever said?",
@@ -467,7 +542,7 @@
         "choice4" : "D. i am sentient hahahahaha",
         "answer" : "a",
         "answer_case" : "A",
-        "qid" : "61"
+        "qid" : "54"
       },
       {
         "question" : "Identify the song that has these lyrics.\nLover come over, look what I've done.",
@@ -477,7 +552,7 @@
         "choice4" : "D. Heading Home",
         "answer" : "b",
         "answer_case" : "B",
-        "qid" : "62"
+        "qid" : "55"
       },
       {
         "question" : "What was the hardest game command to code according to the Apple Mod game creators?",
@@ -487,7 +562,7 @@
         "choice4" : "D. rolldicegame",
         "answer" : "b",
         "answer_case" : "B",
-        "qid" : "63"
+        "qid" : "56"
       },
       {
         "question" : "How many times did Apple Moderator filter swear words as of May 7, 2020?",
@@ -497,7 +572,7 @@
         "choice4" : "D. 100",
         "answer" : "c",
         "answer_case" : "C",
-        "qid" : "64"
+        "qid" : "57"
       },
       {
         "question" : "What is Daniel's last initial?",
@@ -507,7 +582,7 @@
         "choice4" : "D.",
         "answer" : "c",
         "answer_case" : "C",
-        "qid" : "65"
+        "qid" : "58"
       },
       {
         "question" : "What's listed in these choices are real iPod models EXCEPT:",
@@ -517,7 +592,7 @@
         "choice4" : "D. iPod Pro",
         "answer" : "d",
         "answer_case" : "D",
-        "qid" : "66"
+        "qid" : "59"
       },
       {
         "question" : "How many people did New Apple Moderator ban by command of the moderators/owner?",
@@ -527,7 +602,7 @@
         "choice4" : "D. 29",
         "answer" : "b",
         "answer_case" : "B",
-        "qid" : "67"
+        "qid" : "60"
       },
       {
         "question" : "How many people did Corporal Desmond Doss save in Hacksaw Ridge?",
@@ -537,7 +612,7 @@
         "choice4" : "D. 89",
         "answer" : "a",
         "answer_case" : "A",
-        "qid" : "68"
+        "qid" : "61"
       },
       {
         "question" : "What was the name of John Wick's dog?",
@@ -547,7 +622,7 @@
         "choice4" : "D. Mark",
         "answer" : "c",
         "answer_case" : "C",
-        "qid" : "69"
+        "qid" : "62"
       },
       {
         "question" : "What was the cause of Steve Jobs' death?",
@@ -557,7 +632,7 @@
         "choice4" : "D. Severe food poisoning",
         "answer" : "c",
         "answer_case" : "C",
-        "qid" : "70"
+        "qid" : "63"
       },
       {
         "question" : "When did Steve Jobs die?",
@@ -567,7 +642,7 @@
         "choice4" : "D. October 5, 2011",
         "answer" : "d",
         "answer_case" : "D",
-        "qid" : "71"
+        "qid" : "64"
       },
       {
         "question" : "Which macOS version is the easiest to Hackintosh?",
@@ -577,6 +652,206 @@
         "choice4" : "D. Mojave",
         "answer" : "d",
         "answer_case" : "D",
+        "qid" : "65"
+      },
+      {
+        "question" : "What was the first Apple Moderator version to support games?",
+        "choice1" : "A. 5.0.1",
+        "choice2" : "B. 4.0.0",
+        "choice3" : "C. 6.0.0",
+        "choice4" : "D. 7.0.0",
+        "answer" : "c",
+        "answer_case" : "C",
+        "qid" : "66"
+      },
+      {
+         "question" : "The choices listed here are Guilermo Del Toro works EXCEPT FOR:",
+        "choice1" : "A. Pacific Rim",
+        "choice2" : "B. Trollhunters",
+        "choice3" : "C. Cthulhu: From The Mountains of Madness",
+        "choice4" : "D. The Simpsons",
+        "answer" : "d",
+        "answer_case" : "D",
+        "qid" : "67"
+      },
+      {
+        "question" : "What is the first macOS version to have a UI similar to iOS 7?",
+        "choice1" : "A. Mavericks",
+        "choice2" : "B. Lion",
+        "choice3" : "C. El Capitan",
+        "choice4" : "D. Yosemite",
+        "answer" : "d",
+        "answer_case" : "D",
+        "qid" : "68"
+      },
+      {
+        "question" : "What is the first macOS version that introduced dark mode?",
+        "choice1" : "A. Catalina",
+        "choice2" : "B. Mojave",
+        "choice3" : "C. Panther",
+        "choice4" : "D. Jaguar",
+        "answer" : "b",
+        "answer_case" : "B",
+        "qid" : "69"
+      },
+      {
+        "question" : "What is the name of the guy you need to find in books and is always hiding?",
+        "choice1" : "A. William",
+        "choice2" : "B. Waldo/Wally",
+        "choice3" : "C. Warren",
+        "choice4" : "D. Winnie",
+        "answer" : "b",
+        "answer_case" : "B",
+        "qid" : "70"
+      },
+      {
+        "question" : "What is the real name of music producer Vories?",
+        "choice1" : "A. Martin Følsgaard",
+        "choice2" : "B. Hannes Gustafsson",
+        "choice3" : "C. Michael Hansen",
+        "choice4" : "D. Wouter Postelmans",
+        "answer" : "b",
+        "answer_case" : "B",
+        "qid" : "71"
+      },
+      {
+        "question" : "What track did K-391 use as the base of Alan Walker collab song Lily?",
+        "choice1" : "A. Godzilla",
+        "choice2" : "B. Origin",
+        "choice3" : "C. Flux",
+        "choice4" : "D. Tesla",
+        "answer" : "c",
+        "answer_case" : "C",
         "qid" : "72"
+      },
+      {
+        "question" : "What track did K-391 use as the base of Alan Walker collab song Ignite?",
+        "choice1" : "A. Godzilla",
+        "choice2" : "B. Origin",
+        "choice3" : "C. Flux",
+        "choice4" : "D. Tesla",
+        "answer" : "a",
+        "answer_case" : "A",
+        "qid" : "73"
+      },
+      {
+        "question" : "What is the name of the K-391 track that used Tesla car sounds as the base of the song?",
+        "choice1" : "A. Flux",
+        "choice2" : "B. East",
+        "choice3" : "C. Away",
+        "choice4" : "D. Tesla",
+        "answer" : "d",
+        "answer_case" : "d",
+        "qid" : "74"
+      },
+      {
+        "question" : "These GitHub users have permission to commit to the Apple Explained bot EXCEPT FOR:",
+        "choice1" : "A. LT-Tips",
+        "choice2" : "B. tommystefanatic",
+        "choice3" : "C. ThatDerpiGuy",
+        "choice4" : "D. TechGeekGamer",
+        "answer" : "a",
+        "answer_case" : "A",
+        "qid" : "75"
+      },
+      {
+        "question" : "Which PC operating system has the most market share?",
+        "choice1" : "A. ChromeOS",
+        "choice2" : "B. macOS",
+        "choice3" : "C. Windows",
+        "choice4" : "D. Linux",
+        "answer" : "c",
+        "answer_case" : "C",
+        "qid" : "76"
+      },
+      {
+        "question" : "Which mobile operating system has the most market share?",
+        "choice1" : "A. iOS",
+        "choice2" : "B. Android",
+        "choice3" : "C. Symbian",
+        "choice4" : "D. Tizen",
+        "answer" : "c",
+        "answer_case" : "C",
+        "qid" : "77"
+      },
+      {
+        "question" : "Which company is THE biggest Android manufacturer?",
+        "choice1" : "A. Oppo",
+        "choice2" : "B. OnePlus",
+        "choice3" : "C. Vivo",
+        "choice4" : "D. Samsung",
+        "answer" : "d",
+        "answer_case" : "D",
+        "qid" : "78"
+      },
+      {
+        "question" : "This/these song/s from Black Eyed Peas triggers nostalgia among 2000s kids. Which one/s? [two answers]",
+        "choice1" : "A. Let's Get It Started",
+        "choice2" : "B. Boom Boom Pow",
+        "choice3" : "C. I Gotta Feeling",
+        "choice4" : "D. Where Is The Love?",
+        "answer" : ["c", "b"],
+        "answer_case" : ["C", "B"],
+        "qid" : "79"
+      },
+      {
+        "question" : "Who produced the song Somebody Else from the Hopeful Dreams album?",
+        "choice1" : "A. Theorie und Hedges",
+        "choice2" : "B. Alan Walker",
+        "choice3" : "C. Manse",
+        "choice4" : "D. WildVibes",
+        "answer" : "a",
+        "answer_case" : "A",
+        "qid" : "80"
+      },
+      {
+        "question" : "Rick and Morty is aired at what channel?",
+        "choice1" : "A. ABC",
+        "choice2" : "B. [adult swim]",
+        "choice3" : "C. CBS",
+        "choice4" : "D. Warner Bros. TV",
+        "answer" : "b",
+        "answer_case" : "B",
+        "qid" : "81"
+      },
+      {
+        "question" : "Which company owns Warner Bros.? (as of 2019)",
+        "choice1" : "A. WarnerMedia",
+        "choice2" : "B. NBCUniversal",
+        "choice3" : "C. TimeWarner",
+        "choice4" : "D. Apple Explained",
+        "answer" : "a",
+        "answer_case" : "A",
+        "qid" : "82"
+      },
+      {
+        "question" : "How many cats does Derpi have?",
+        "choice1" : "A. 1",
+        "choice2" : "B. 4",
+        "choice3" : "C. 3",
+        "choice4" : "D. 2",
+        "answer" : "c",
+        "answer_case" : "C",
+        "qid" : "83"
+      },
+      {
+        "question" : "What is the first Apple Moderator version to support the Leaderboard?",
+        "choice1" : "A. 8.5.0.145 build 126",
+        "choice2" : "B. 8.5.1.212 build 128",
+        "choice3" : "C. 8.5.1.112 build 041",
+        "choice4" : "D. 8.5.1.199 build 099",
+        "answer" : "b",
+        "answer_case" : "B",
+        "qid" : "84"
+      },
+      {
+        "question" : "What is the first Apple Moderator version to add update codenames?",
+        "choice1" : "A. 8.0.0.124 build 122",
+        "choice2" : "B. 8.5.1.212 build 128",
+        "choice3" : "C. 7.9.10.592 build 241",
+        "choice4" : "D. 8.3.1.199 build 684",
+        "answer" : "b",
+        "answer_case" : "B",
+        "qid" : "85"
       }
 ]
