@@ -4,15 +4,9 @@ colors = require('colors')
 Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-const { 
-	prefix, 
-    token,
-    staffRoleID,
-    botLog,
-	modLog,
-	debugChannel
-} = require('./config.json');
-const config = require('./config.json')
+
+config = require('./config.json')
+
 const {
 	MessageEmbed
 } = require('discord.js')
@@ -23,7 +17,7 @@ footerText = `Debug Mode`
 
 
 //Client Login
-client.login(token)
+client.login(config.token)
 
 //Bot Startup
 client.once('ready', () => {
@@ -34,7 +28,7 @@ client.once('ready', () => {
 		.setTitle('Bot Started')
 		.setTimestamp()
 		.setFooter(footerText)
-	client.channels.cache.get(`${botLog}`).send(StartupEmbed);
+	client.channels.cache.get(`${config.botLog}`).send(StartupEmbed);
 
 });
 
@@ -51,8 +45,8 @@ debugLogging = function (text){
 
 process.on('unhandledRejection', error => {
 	console.error('Uncaught Promise Rejection:', error)
-	if(debugChannel){
-		debugLogging(`Uncaught Promise Rejection: ${err}`)
+	if(config.debugChannel){
+		debugLogging(`Uncaught Promise Rejection: ${error}`)
 	}
 });
 
@@ -80,7 +74,7 @@ reply = function(title, content, footer, destination, color){
     
 }
 
-prompt = async function(title, content, footer, destination, color, returnFunction){
+prompt = async function(title, content, footer, destination, color, returnFunction, messageAuthor){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -94,7 +88,7 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
 			}
 			destination.send(RespondEmbed).then(message =>{
 				const filter = (reaction, user) => {
-					return ['✅', '❌'].includes(reaction.emoji.name) && user.id != message.author.id;
+					return ['✅', '❌'].includes(reaction.emoji.name) && user.id == messageAuthor.id;
 					};
 
 				message.react('✅').then(() => message.react('❌'));
@@ -134,17 +128,19 @@ awaitMessageResponse = async function(title, content, footer, destination, color
 			destination.send(RespondEmbed).then(botmessage =>{
 				const filter = response => {
 					console.log(response.content)
+					responseContent = response.content
+					responseMessage = response
 					return response.content && response.author.id == messageAuthor.id
 					};
 				
 					botmessage.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
 					.then(collected => {
 
-						returnFunction(collected)
+						returnFunction(responseContent, responseMessage)
 					})
 					.catch(collected => {
 						console.log(collected)
-						returnFunction('No response was found.');
+						returnFunction('No response was found.', responseMessage);
 						error(collected)
 					});
 			})
@@ -176,7 +172,7 @@ error = function (error){
 		.setDescription(error)
 		.setTimestamp()
 		.setFooter(footerText)
-		client.channels.cache.get(`${botLog}`)
+		client.channels.cache.get(`${config.botLog}`)
 		.send(errorReportEmbed);
 }
 
@@ -191,8 +187,8 @@ for (const file of commandFiles) {
 		}
 	}
 client.on('message', async message => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-		const args = message.content.slice(prefix.length).split(/ +/);
+	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+		const args = message.content.slice(config.prefix.length).split(/ +/);
 		const commandName = args.shift().toLowerCase();
 		const command = client.commands.get(commandName)
 			|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
@@ -200,19 +196,19 @@ client.on('message', async message => {
 		return;
 	}
 
-	if(debugChannel){
+	if(config.debugChannel){
 		debugLogging(`commandName: ${command.name}\nargs: ${args}\nMessage content: ${message.content}`)
 	}
 
-	if(command.staff == true && !message.member.roles.cache.some(role => role.id === `${staffRoleID}`)){
-		reply('', `Incorrect permissions. Required role: <@&${staffRoleID}>`, '', message.channel);
+	if(command.staff == true && !message.member.roles.cache.some(role => role.id === `${config.staffRoleID}`)){
+		reply('', `Incorrect permissions. Required role: <@&${config.staffRoleID}>`, '', message.channel);
 		return;
 	}
 	try {
 		command.execute(message, args, client);
-	} catch (error) {
-		console.error(error);
-		error(error)
+	} catch (err) {
+		console.error(err);
+		error(err)
 	}
 });
 
