@@ -3,9 +3,8 @@ module.exports = {
   aliases: ['speak'],
   description: 'Has the bot speak.',
   usage: '<text>',
-  cooldown: 0,
-  mod:true,
-  nodelay:true,
+  cooldown: 0,  
+  staff:true,
 	execute(message, args, client) {	
 		const { prefix } = require('../config.json');
 		const argarray = message.content.slice(prefix.length).trim().split(/ +/g);
