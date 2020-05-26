@@ -1,9 +1,9 @@
 # Project MultiFeatureBot
-
+A bot with customizable features and commands.
 
 # Functions
 
-## respond function
+## reply function
 This function lets you send a message in an embed. You have many options when sending it.
 
 EXAMPLE: `reply('Notice', 'This is an example notice.', 'Notice Found', message.channel)`
