@@ -182,9 +182,7 @@ const commandFiles = fs.readdirSync('./commands')
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
-		if(!command.mod){
-			client.commands.set(command.name, command);
-		}
+	client.commands.set(command.name, command);
 	}
 client.on('message', async message => {
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
