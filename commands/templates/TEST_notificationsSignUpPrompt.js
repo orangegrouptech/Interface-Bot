@@ -10,6 +10,6 @@ module.exports = {
             reply('', result, '', message.channel);
           }
         }
-        prompt('', 'Are you sure you want to sign up for news notifications?', '', message.channel, '', responseReceived)
+        prompt('', 'Are you sure you want to sign up for news notifications?', '', message.channel, '', responseReceived, message.author)
         }
     }
