@@ -1,7 +1,7 @@
 module.exports = {
   name: 'trivia',
   aliases: ['factgame', 'triviagame'],
-  description: '**This is a game command.**\nLearn something new with Apple Mod.\n(Trivia will only include history of the Apple company, the Apple Explained channel, the server and its users for now.)\nTo answer a question, use .answer (question ID) (your answer).',
+  description: 'Learn something new with Apple Mod.',
   usage: '',
   cooldown: 0,
   hidden: true,
