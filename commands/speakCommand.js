@@ -6,7 +6,7 @@ module.exports = {
   cooldown: 0,  
   staff:true,
 	execute(message, args, client) {	
-		const { prefix } = require('../config.json');
+		const { prefix } = require('../resources/config.json');
 		const argarray = message.content.slice(prefix.length).trim().split(/ +/g);
 		const text = args.join(' ');
     message.channel.send(text)

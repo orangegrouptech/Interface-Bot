@@ -5,7 +5,7 @@ module.exports = {
 	usage: '',
 	execute(message, args, client) {
 		const data = [];
-		const config = require('../config.json')
+		const config = require('../resources/config.json')
 		const { commands } = message.client;
 		const { MessageEmbed } = require('discord.js')
 		try {
