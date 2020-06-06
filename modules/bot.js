@@ -47,15 +47,6 @@ debugLogging = function (text){
 		.send(debugLoggingEmbed);
 }
 
-
-process.on('unhandledRejection', error => {
-	console.error('Uncaught Promise Rejection:', error)
-	if(config.debugChannel){
-		debugLogging(`Uncaught Promise Rejection: ${error}`)
-	}
-});
-
-
 //Response Embed
 reply = function(title, content, footer, destination, color){
     try{
@@ -181,6 +172,13 @@ error = function (error){
 		.send(errorReportEmbed);
 }
 
+process.on('unhandledRejection', error => {
+	console.error('Uncaught Promise Rejection:', error)
+	if(config.debugChannel){
+		debugLogging(`Uncaught Promise Rejection: ${error}`)
+	}
+});
+
 //Commands
 const commandFiles = fs.readdirSync('./commands')
 .filter(file => file.endsWith('.js'));
@@ -216,7 +214,7 @@ client.on('message', async message => {
 });
 
 //Blacklisted text
-	client.on('message', message => {
+client.on('message', message => {
 		if(featureConfig.blacklistedWordsFilter == true)
 		if(message.channel.type == 'dm')return;
 		const blacklist = require('../resources/blacklisted.json');
@@ -226,6 +224,18 @@ client.on('message', async message => {
 			reply('Blacklisted text', `<@${message.author.id}>, your message included a blacklisted word, so it was deleted.`, '', message.channel)
 			reply('Blacklisted text', `Your message included a blacklisted word, so it was deleted. The blacklisted word is: ${caught}`, '', message.author)
 		}
-	})
+})
+
+//Member Join
+client.on('guildMemberAdd', member => {
+	const userLogModule = require('./userLogModule.js')
+	userLogModule.userJoin(member)
+})
+
+//Member leave
+client.on('guildMemberRemove', member => {
+	const userLogModule = require('./userLogModule.js')
+	userLogModule.userLeave(member)
+})
 }
 }
