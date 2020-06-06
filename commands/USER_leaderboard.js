@@ -1,7 +1,7 @@
 module.exports = {
     name: 'leaderboard',
     aliases: ['lb', 'gamelb', 'rank', 'gamerank'],
-    description: '**This is a game command.**\nFeeling competitive? Check who\'s on top with this command!\n**Start by typing `.leaderboard init`!**\n**Want to start over? Type `.leaderboard wipe`.**',
+    description: 'Feeling competitive? Check who\'s on top with this command!',
     usage: '',
     cooldown: 0,
     hidden: true,
