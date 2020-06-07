@@ -13,12 +13,12 @@ module.exports = {
 			{ name: 'Account creation', value: member.user.createdAt, inline: false },
 		)
         .setTimestamp()
-        const channel = message.guild.channels.cache.get(config.modLog)
+        const channel = member.guild.channels.cache.get(config.userLog)
 		channel.send(MemberJoinEmbed)
     },
     userLeave(member){
         const MemberJoinEmbed = new Discord.MessageEmbed()
-		.setColor('#00FF00')
+		.setColor('#ff0000')
 		.setTitle('Member Leave')
 		.setThumbnail(`${member.user.displayAvatarURL()}`)
 		.addFields(
@@ -26,9 +26,10 @@ module.exports = {
 			{ name: 'Username', value: member.user.tag, inline: true },
 			{ name: 'ID', value: member.id, inline: true },
 			{ name: 'Account creation', value: member.user.createdAt, inline: false },
+			{ name: 'Role list', value: member.roles.cache.array().toString(), inline: false },
 		)
         .setTimestamp()
-        const channel = message.guild.channels.cache.get(config.modLog)
+        const channel = member.guild.channels.cache.get(config.userLog)
 		channel.send(MemberJoinEmbed)
     }
 }
