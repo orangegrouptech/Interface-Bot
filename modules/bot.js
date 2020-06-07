@@ -209,14 +209,16 @@ client.on('message', message => {
 
 //Member Join
 client.on('guildMemberAdd', member => {
-	const userLogModule = require('./userLogModule.js')
-	userLogModule.userJoin(member)
+	if(featureConfig.userLog == true)
+		userLogModule = require('./userLogModule.js')
+		userLogModule.userJoin(member)
 })
 
 //Member leave
 client.on('guildMemberRemove', member => {
-	const userLogModule = require('./userLogModule.js')
-	userLogModule.userLeave(member)
+	if(featureConfig.userLog == true)
+		userLogModule = require('./userLogModule.js')
+		userLogModule.userLeave(member)
 })
 }
 }
