@@ -19,6 +19,7 @@ const {
 version = '1.0.0'
 //footerText = `Version ${version}`
 footerText = `Debug Mode`
+console.log('Version '+ version)
 
 
 //Client Login
@@ -26,25 +27,14 @@ client.login(config.token)
 
 //Bot Startup
 client.once('ready', () => {
-	console.log('Version '+version)
-    console.log('Ready.');
-    const StartupEmbed = new Discord.MessageEmbed()
-		.setColor('#00FF00')
-		.setTitle('Bot Started')
-		.setTimestamp()
-		.setFooter(footerText)
-	client.channels.cache.get(`${config.botLog}`).send(StartupEmbed);
-
+	const botLogModule = require('./botLogModule.js')
+	botLogModule.botStart(client)
 });
 
+//Debug logging
 debugLogging = function (text){
-	const debugLoggingEmbed = new Discord.MessageEmbed()
-		.setTitle('Debug Mode')
-		.setDescription(text)
-		.setTimestamp()
-		.setFooter(footerText)
-		client.channels.cache.get(`${config.debugChannel}`)
-		.send(debugLoggingEmbed);
+	const botLogModule = require('./botLogModule.js')
+	botLogModule.debugLogging(text, client)
 }
 
 //Response Embed
@@ -146,7 +136,7 @@ awaitMessageResponse = async function(title, content, footer, destination, color
     }
 }
 
-//Respond backward compatibility
+//Respond backwards compatibility
 respond = function (title, content, sendto, color, footer, imageurl){
 	console.log(colors.red(`WARNING: You are currently using old code. (respond)`));
 	console.log(colors.red(`WARNING: Please update your code.`));
@@ -160,17 +150,7 @@ respond = function (title, content, sendto, color, footer, imageurl){
 	reply(title, content, footer, sendto, color)
 }
 
-//Error Logging
-error = function (error){
-	const errorReportEmbed = new Discord.MessageEmbed()
-		.setColor('#FF0000')
-		.setTitle('Bot Error')
-		.setDescription(error)
-		.setTimestamp()
-		.setFooter(footerText)
-		client.channels.cache.get(`${config.botLog}`)
-		.send(errorReportEmbed);
-}
+
 
 process.on('unhandledRejection', error => {
 	console.error('Uncaught Promise Rejection:', error)
@@ -187,6 +167,7 @@ for (const file of commandFiles) {
 	const command = require(`../commands/${file}`);
 	client.commands.set(command.name, command);
 	}
+	
 client.on('message', async message => {
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 		const args = message.content.slice(config.prefix.length).split(/ +/);
@@ -216,14 +197,14 @@ client.on('message', async message => {
 //Blacklisted text
 client.on('message', message => {
 		if(featureConfig.blacklistedWordsFilter == true)
-		if(message.channel.type == 'dm')return;
-		const blacklist = require('../resources/blacklisted.json');
-		var caught = blacklist.filter(word => message.content.toLowerCase().includes(word));
-		if (caught.length > 0) {
-			message.delete()
-			reply('Blacklisted text', `<@${message.author.id}>, your message included a blacklisted word, so it was deleted.`, '', message.channel)
-			reply('Blacklisted text', `Your message included a blacklisted word, so it was deleted. The blacklisted word is: ${caught}`, '', message.author)
-		}
+			if(message.channel.type == 'dm')return;
+				const blacklist = require('../resources/blacklisted.json');
+				var caught = blacklist.filter(word => message.content.toLowerCase().includes(word));
+				if (caught.length > 0) {
+					message.delete()
+					reply('Blacklisted text', `<@${message.author.id}>, your message included a blacklisted word, so it was deleted.`, '', message.channel)
+					reply('Blacklisted text', `Your message included a blacklisted word, so it was deleted. The blacklisted word is: ${caught}`, '', message.author)
+				}
 })
 
 //Member Join
