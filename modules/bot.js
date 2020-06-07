@@ -60,6 +60,7 @@ reply = function(title, content, footer, destination, color){
     
 }
 
+//Gives user an option through reactions: ✅ (Yes), ❌ (No)
 prompt = async function(title, content, footer, destination, color, returnFunction, messageAuthor){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
@@ -99,6 +100,7 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
     }
 }
 
+//Waits for the user to send a message
 awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
@@ -151,7 +153,7 @@ respond = function (title, content, sendto, color, footer, imageurl){
 }
 
 
-
+//Debug
 process.on('unhandledRejection', error => {
 	console.error('Uncaught Promise Rejection:', error)
 	if(config.debugChannel){
