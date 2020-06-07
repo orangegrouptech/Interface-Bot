@@ -1,0 +1,9 @@
+{
+	"_comment":"Possible options: true/false",
+	"botLog":true,
+	"userLog":true,
+	"modLog":true,
+	"blacklistedWordsFilter":true,
+	"modLog_messageEdit":true,
+	"modLog_messageDelete":true
+}
