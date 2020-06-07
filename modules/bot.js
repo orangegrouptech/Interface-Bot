@@ -5,7 +5,7 @@ fs = require('fs');
 
 colors = require('colors')
 Discord = require('discord.js');
-const client = new Discord.Client();
+client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 
