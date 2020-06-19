@@ -3,9 +3,10 @@ fs = require('fs');
 
 returnFunction = function(returned, file){
 	if(returned == 'progress'){
-		console.log(`"${file}" was found. Check passed.`)
+		console.log(`Passed: "${file}" was found.`)
 	}
 	if(returned == true){
+		console.log(`All files were successfully found.`)
 		bot = require('./modules/bot.js')
 		bot.execute()
 	}

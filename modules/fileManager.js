@@ -7,13 +7,28 @@ module.exports = {
         })
     },
     resetFiles(returnFunction){},
-    verifyFiles(returnFunction){
+    async verifyFiles(returnFunction){
+        const commandList = []
+        const commandFiles = fs.readdirSync('./commands')
+        .filter(file => file.endsWith('.js'));
+
+        for (const file of commandFiles) {
+            const command = require(`../commands/${file}`)
+            const commandName = command.name.substr(0,1)
+            if(commandName == commandName.toUpperCase() || commandList.includes(command.name)){
+                console.log(`Failed: "${file}" command has an invalid command name!`)
+                process.exit()
+            }else{
+                commandList.push(command.name)
+                console.log(`Passed: "${file}" command has a valid command name.`)
+            }
+	    }
         currentCount = 0
         requiredFiles = ['./modules/bot.js','./resources/config.json','./resources/featuresConfig.json', './commands', './node_modules', './modules', './resources']
         requiredFiles.forEach(element => {
             fs.exists(element, (result) => {
                 if(result == false){
-                    console.log(`"${element}" doesn't exist!`)
+                    console.log(`Failed: "${element}" doesn't exist!`)
                     process.exit()
                 }
                 currentCount = currentCount+1
