@@ -1,7 +1,7 @@
 module.exports = {
   name: 'hi',
   aliases: ['hello', 'hey'],
-  description: 'Says hello. What else would it do? :joy:',
+  description: 'Says hello. What else would it do? 🤔',
   cooldown: 0,
 	execute(message, args, client) {
     try{
