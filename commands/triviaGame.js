@@ -1,7 +1,7 @@
 module.exports = {
   name: 'trivia',
   aliases: ['factgame', 'triviagame'],
-  description: 'Learn something new with Apple Mod.',
+  description: 'Learn something new!',
   usage: '',
   cooldown: 0,
   hidden: true,
@@ -31,11 +31,13 @@ module.exports = {
         respond('Trivia',`<@${message.author.id}>'s question:\n` + item.question+ '\n' + item.choice1 + '\n' + item.choice2 +'\n' + item.choice3 + '\n' + item.choice4 + '\n' + "Question ID: " + item.qid, message.channel) 
         
         function responseReceived(result, responseMessage){
-          if(result){
+          if(result != null){
             console.log(item)
+            if(responseMessage){
             responseMessage.delete().catch(err => {
               error(err)
             })
+          }
             if(result.toLowerCase() === item.answer) {
               fs.readFile('./leaderboards/' + message.author.id + '_gamestats.json', error => {
                 if(error) {
@@ -111,6 +113,6 @@ module.exports = {
           }
         }
 
-        awaitMessageResponse('', 'What is your answer?', '', message.channel, '', responseReceived, message.author) 
+        awaitMessageResponse('', 'What is your answer?', '', message.channel, '', responseReceived, message.author, 10) 
   }
 }
