@@ -1,4 +1,4 @@
-//Run index.js first.
+//Run app.js first.
 module.exports = {
 	execute(){
 fs = require('fs');
@@ -100,8 +100,8 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
     }
 }
 
-//Waits for the user to send a message
-awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor){
+//Waits for the user to send a message 
+awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor, timeLimitSeconds){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -121,14 +121,14 @@ awaitMessageResponse = async function(title, content, footer, destination, color
 					return response.content && response.author.id == messageAuthor.id
 					};
 				
-					botmessage.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+					botmessage.channel.awaitMessages(filter, { max: 1, time:  Number(timeLimitSeconds+1000)|| 60000, errors: ['time'] }) //1 seconds minimum if provided, 60 seconds if not provided
 					.then(collected => {
 
 						returnFunction(responseContent, responseMessage)
 					})
 					.catch(collected => {
 						console.log(collected)
-						returnFunction('No response was found.', responseMessage);
+						returnFunction(null);
 						error(collected)
 					});
 			})
@@ -220,7 +220,6 @@ client.on('guildMemberAdd', member => {
 client.on('guildMemberRemove', member => {
 	if(featureConfig.userLog == true)
 		userLogModule = require('./userLogModule.js')
-		userLogModule.userLeave(member)
-})
+		userLogModule.userLeave(member)})
 }
 }

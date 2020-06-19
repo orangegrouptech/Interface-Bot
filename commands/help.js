@@ -24,11 +24,11 @@ module.exports = {
 				await commands.forEach(element => {
 					const command = element
 					if(command.staff && command.staff == true && staffPerm == true){
-							data.push(`**${command.name}**\n${command.description}`)
+							data.push(`__**${command.name}**__\n*${command.description}*`)
 							helpEmbed.setFooter('Staff')
 					}
 					if(!command.staff || command.staff == false)
-							data.push(`**${command.name}**\n${command.description}`)
+							data.push(`__**${command.name}**__\n*${command.description}*`)
 				});
 				helpEmbed.setDescription(data.sort(function (a, b){
 					if (a < b) return -1;
