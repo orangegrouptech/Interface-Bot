@@ -3,7 +3,8 @@ module.exports = {
 	description: 'List all of my commands or info about a specific command.',
 	aliases: ['commands'],
 	usage: '',
-	execute(message, args, client) {
+	async execute(message, args, client) {
+		const Discord = require('discord.js')
 		const data = [];
 		const config = require('../resources/config.json')
 		const { commands } = message.client;
@@ -11,37 +12,30 @@ module.exports = {
 		try {
 			// code that might fail
 			if (!args.length) {
-				var modPerm = false
+				var staffPerm = false
 
 				if(message.member.roles.cache.some(role => role.id === `${config.staffRoleID}`)){
-					var modPerm = true
+					var staffPerm = true
 				}
 
 				const helpEmbed = new Discord.MessageEmbed()
 				.setTitle('Available Commands')
-				const helpEmbed2 = new Discord.MessageEmbed()
-				const helpEmbed3 = new Discord.MessageEmbed()
-				const helpEmbed4 = new Discord.MessageEmbed()
-				const helpEmbed5 = new Discord.MessageEmbed()
-				var helpEmbedEntryCount = 0
-
-				if(!message.member.roles.cache.some(role => role.id === `${config.staffRoleID}`)){
-					commands.forEach(element => {
-						if(element.staff != true){
-							helpEmbedEntryCount = helpEmbedEntryCount+1
-							if(helpEmbedEntryCount < 25){
-								helpEmbed.addField(command.name, command.description, false)
-							}else if(helpEmbedEntryCount < 50)
-							helpEmbed2.addField(command.name, command.description, false)
-						}
-						return message.channel.send(helpEmbed)
-					})
-				}else {
-					commands.forEach(element => {
-						helpEmbed.addField(element.name, element.description, false)						
-					})
-					return message.channel.send(helpEmbed)
-				}
+				console.log(commands.array.length)
+				await commands.forEach(element => {
+					const command = element
+					if(command.staff && command.staff == true && staffPerm == true){
+							data.push(`**${command.name}**\n${command.description}`)
+							helpEmbed.setFooter('Staff')
+					}
+					if(!command.staff || command.staff == false)
+							data.push(`**${command.name}**\n${command.description}`)
+				});
+				helpEmbed.setDescription(data.sort(function (a, b){
+					if (a < b) return -1;
+					else if (a > b) return 1;
+					return 0;
+				}))
+				return message.channel.send(helpEmbed)
 			}
 
 			
