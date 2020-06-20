@@ -20,7 +20,6 @@ module.exports = {
 
 				const helpEmbed = new Discord.MessageEmbed()
 				.setTitle('Available Commands')
-				console.log(commands.array.length)
 				await commands.forEach(element => {
 					const command = element
 					if(command.staff && command.staff == true && staffPerm == true){
