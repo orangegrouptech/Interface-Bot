@@ -109,10 +109,10 @@ module.exports = {
             })
             }
           }else{
-            reply('', result, '', message.channel);
+            respond('Invalid Answer!', `<@${message.author.id}>, you didn't provide an answer.`, message.channel, 'ffff00')
           }
         }
 
-        awaitMessageResponse('', 'What is your answer?', '', message.channel, '', responseReceived, message.author, 10) 
+        awaitMessageResponse('', 'What is your answer?', '', message.channel, '', responseReceived, message.author) 
   }
 }
