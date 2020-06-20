@@ -1,5 +1,6 @@
 {
 	"_comment":"Possible options: true/false",
+	"bootFileCheck":true,
 	"botLog":true,
 	"userLog":true,
 	"modLog":true,
