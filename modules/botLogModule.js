@@ -3,7 +3,7 @@ const featureConfig = require('../resources/featuresConfig.json')
 module.exports = {
 	description:"Handles bot log events.",
 	errorLog(error, client){
-		if(featureConfig.botLog == true)
+		if(featureConfig.botLog == true){
 			errorReportEmbed = new Discord.MessageEmbed()
 				.setColor('#FF0000')
 				.setTitle('Bot Error')
@@ -13,6 +13,7 @@ module.exports = {
 				client.channels.cache
 				.get(`${config.botLog}`)
 				.send(errorReportEmbed);
+		}
 	},
 	botStart(client){
 		if(featureConfig.botLog == true){
