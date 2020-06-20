@@ -3,7 +3,6 @@ module.exports = {
 	execute(){
 fs = require('fs');
 
-colors = require('colors')
 Discord = require('discord.js');
 client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -30,6 +29,13 @@ client.once('ready', () => {
 	const botLogModule = require('./botLogModule.js')
 	botLogModule.botStart(client)
 });
+
+//Error
+error = function(error){
+	const botLogModule = require('../modules/botLogModule.js')
+	botLogModule.errorLog(error, client)
+	
+}
 
 //Debug logging
 debugLogging = function (text){
@@ -101,7 +107,7 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
 }
 
 //Waits for the user to send a message 
-awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor, timeLimitSeconds){
+awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -121,9 +127,8 @@ awaitMessageResponse = async function(title, content, footer, destination, color
 					return response.content && response.author.id == messageAuthor.id
 					};
 				
-					botmessage.channel.awaitMessages(filter, { max: 1, time:  Number(timeLimitSeconds+1000)|| 60000, errors: ['time'] }) //1 seconds minimum if provided, 60 seconds if not provided
+					botmessage.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] }) //60 seconds
 					.then(collected => {
-
 						returnFunction(responseContent, responseMessage)
 					})
 					.catch(collected => {
@@ -140,9 +145,11 @@ awaitMessageResponse = async function(title, content, footer, destination, color
 
 //Respond backwards compatibility
 respond = function (title, content, sendto, color, footer, imageurl){
-	console.log(colors.red(`WARNING: You are currently using old code. (respond)`));
-	console.log(colors.red(`WARNING: Please update your code.`));
-	console.log(colors.red(`WARNING: This backward compatibility will be removed eventually.`));
+	console.log(`================================================================`);
+	console.log(`WARNING: You are currently using old functions. (respond)`);
+	console.log(`WARNING: Please update your code to use the new function. (reply)`);
+	console.log(`WARNING: This backward compatibility will be removed eventually.`);
+	console.log(`================================================================`);
 	if(!color){
 		var color = ''
 	}
