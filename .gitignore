@@ -1,5 +1,5 @@
 
-config.json
+resources/config.json
+resources/featuresConfig.json
 node_modules/
 .DS_Store
-resources/
