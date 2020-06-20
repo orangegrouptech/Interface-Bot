@@ -1,5 +1,6 @@
 
 resources/config.json
 resources/featuresConfig.json
+resources/
 node_modules/
 .DS_Store
