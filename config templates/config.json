@@ -2,7 +2,7 @@
 	"prefix": "",
 	"token": "",
 	"staffRoleID":"",
-    "botLog":"=",
+    "botLog":"",
 	"modLog":"",
 	"userLog":"",
 	"debugChannel":""
