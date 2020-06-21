@@ -20,20 +20,25 @@ module.exports = {
 
 				const helpEmbed = new Discord.MessageEmbed()
 				.setTitle('Available Commands')
+				var commandCount = 0
 				await commands.forEach(element => {
+					commandCount = commandCount +1
 					const command = element
 					if(command.staff && command.staff == true && staffPerm == true){
-							data.push(`__**${command.name}**__\n*${command.description}*`)
+							data.push(`__**${command.name}**__\n*${command.description || 'No information available.'}*`)
 							helpEmbed.setFooter('Staff')
 					}
 					if(!command.staff || command.staff == false)
-							data.push(`__**${command.name}**__\n*${command.description}*`)
+							data.push(`__**${command.name}**__\n*${command.description || 'No information available.'}*`)
 				});
 				helpEmbed.setDescription(data.sort(function (a, b){
 					if (a < b) return -1;
 					else if (a > b) return 1;
 					return 0;
 				}))
+				if(commandCount == 1){
+					helpEmbed.setDescription(`Looks like you haven't added any commands yet!\nAdd some to the commands folder. Some working commands you can use are in the \`workingCommands\` folder.`)
+				}
 				return message.channel.send(helpEmbed)
 			}
 
