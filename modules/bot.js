@@ -67,7 +67,7 @@ reply = function(title, content, footer, destination, color){
 }
 
 //Gives user an option through reactions: ✅ (Yes), ❌ (No)
-prompt = async function(title, content, footer, destination, color, returnFunction, messageAuthor){
+prompt = async function(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -86,7 +86,7 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
 
 				message.react('✅').then(() => message.react('❌'));
 				
-					message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+					message.awaitReactions(filter, { max: 1, time: timeToWait, errors: ['time'] })
 					.then(collected => {
 						const reaction = collected.first();
 						if (reaction.emoji.name === '✅') {
@@ -106,8 +106,45 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
     }
 }
 
+//User can select through reactions (Provided through array)
+reactOptions = async function(title, content, footer, destination, array, color = '', returnFunction, messageAuthor, timeToWait){
+    try{
+       var RespondEmbed = new Discord.MessageEmbed()
+		RespondEmbed.setTitle(title)
+		RespondEmbed.setDescription(content)
+		if(!destination || destination == '' ){
+			throw `Invalid Arguments.`
+		}else{
+			RespondEmbed.setFooter(footer +' | '+ footerText)
+			if(color && !color == ''){
+				RespondEmbed.setColor(color)
+			}
+			destination.send(RespondEmbed).then(async message =>{
+				const filter = (reaction, user) => {
+					return array.includes(reaction.emoji.name) && user.id == messageAuthor.id || array.includes(reaction.emoji.id) && user.id == messageAuthor.id;
+					};
+
+				array.forEach(async element => {
+					await message.react(element)
+				});
+				
+					await message.awaitReactions(filter, { max: 1, time: timeToWait, errors: ['time'] })
+					.then(collected => {
+						const reaction = collected.first();
+						returnFunction(reaction)
+					})
+					.catch(collected => {
+						returnFunction(null);
+					});
+			})
+		} 
+    }catch(err){
+        throw err
+    }
+}
+
 //Waits for the user to send a message 
-awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor){
+awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -120,6 +157,9 @@ awaitMessageResponse = async function(title, content, footer, destination, color
 				RespondEmbed.setColor(color)
 			}
 			destination.send(RespondEmbed).then(botmessage =>{
+				if(!timeToWait){
+					timeToWait = 60000;
+				}
 				const filter = response => {
 					console.log(response.content)
 					responseContent = response.content
@@ -127,7 +167,7 @@ awaitMessageResponse = async function(title, content, footer, destination, color
 					return response.content && response.author.id == messageAuthor.id
 					};
 				
-					botmessage.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] }) //60 seconds
+					botmessage.channel.awaitMessages(filter, { max: 1, time: timeToWait, errors: ['time'] }) //60 seconds by default
 					.then(collected => {
 						returnFunction(responseContent, responseMessage)
 					})
@@ -143,13 +183,13 @@ awaitMessageResponse = async function(title, content, footer, destination, color
     }
 }
 
-//Respond backwards compatibility
+//Respond function backwards compatibility
 respond = function (title, content, sendto, color, footer, imageurl){
-	console.log(`================================================================`);
+	console.log(`=================================================================`);
 	console.log(`WARNING: You are currently using old functions. (respond)`);
 	console.log(`WARNING: Please update your code to use the new function. (reply)`);
 	console.log(`WARNING: This backward compatibility will be removed eventually.`);
-	console.log(`================================================================`);
+	console.log(`=================================================================`);
 	if(!color){
 		var color = ''
 	}
@@ -178,6 +218,10 @@ for (const file of commandFiles) {
 	}
 	
 client.on('message', async message => {
+	if(fs.existsSync('./modules/customCommandHandler.js')){
+		const commandHandler = require('./customCommandHandler.js')
+		return commandHandler.execute(message, client)
+	}
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 		const args = message.content.slice(config.prefix.length).split(/ +/);
 		const commandName = args.shift().toLowerCase();
@@ -205,28 +249,27 @@ client.on('message', async message => {
 
 //Blacklisted text
 client.on('message', message => {
-		if(featureConfig.blacklistedWordsFilter == true)
-			if(message.channel.type == 'dm')return;
-				const blacklist = require('../resources/blacklisted.json');
-				var caught = blacklist.filter(word => message.content.toLowerCase().includes(word));
-				if (caught.length > 0) {
-					message.delete()
-					reply('Blacklisted text', `<@${message.author.id}>, your message included a blacklisted word, so it was deleted.`, '', message.channel)
-					reply('Blacklisted text', `Your message included a blacklisted word, so it was deleted. The blacklisted word is: ${caught}`, '', message.author)
-				}
+	if(featureConfig.blacklistedWordsFilter == true){
+	const messageFilter = require('../modules/messageFilterModule.js')
+	return messageFilter.execute(message)
+	}
 })
 
 //Member Join
 client.on('guildMemberAdd', member => {
-	if(featureConfig.userLog == true)
+	if(featureConfig.userLog == true){
 		userLogModule = require('./userLogModule.js')
-		userLogModule.userJoin(member)
+		return userLogModule.userJoin(member)
+	}
 })
 
 //Member leave
 client.on('guildMemberRemove', member => {
-	if(featureConfig.userLog == true)
+	if(featureConfig.userLog == true){
 		userLogModule = require('./userLogModule.js')
-		userLogModule.userLeave(member)})
-}
+		return userLogModule.userLeave(member)
+	}
+})
+
+	}
 }
