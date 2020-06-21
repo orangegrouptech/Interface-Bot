@@ -30,11 +30,11 @@ module.exports = {
                         "rouletteminorwins" : 0
                     }), (err) => {if(err)console.log(err)});
                     console.log(message.author.tag + " is ready to compete.");
-                    respond('🎮 Game Leaderboard', 'Your Leaderboard data has been initialized.\nGo compete with other members in the server!' , message.channel);
+                    reply('🎮 Game Leaderboard', 'Your Leaderboard data has been initialized.\nGo compete with other members in the server!' ,'', message.channel);
                     return;
                 }else {
                     console.log(message.author.tag + " is already competing!");
-                    respond('🎮 Game Leaderboard', 'You already have Leaderboard data!' , message.channel)
+                    reply('🎮 Game Leaderboard', 'You already have Leaderboard data!','' , message.channel)
                     return
                 }
             })
@@ -46,17 +46,20 @@ module.exports = {
                 if(!err) {
                     fs.unlinkSync('./leaderboards/' + message.author.id + '_gamestats.json', err)
                     console.log(message.author.tag + " quit the leaderboards.")
-                            respond('🎮 Game Leaderboard', 'Your Leaderboard stats have been successfully wiped.', message.channel);
+                            reply('🎮 Game Leaderboard', 'Your Leaderboard stats have been successfully wiped.', '', message.channel);
                             return
                 } else {
-                    respond('🎮 Game Leaderboard', 'Your Leaderboard stats do not exist.\nType `leaderboard init` to start competing with other members in the server!', message.channel);
+                    reply('🎮 Game Leaderboard', 'Your Leaderboard stats do not exist.\nType `leaderboard init` to start competing with other members in the server!', '', message.channel);
                     return
                 }
              })
           } else if(arg[1] === 'info'){
-            respond('🎮 About Game Leaderboard', 'Version: 1.1.12 build 031\nAuthors: Thomas Stefanos & Daniel C' , message.channel)
+            reply('🎮 About Game Leaderboard', 'Version: 1.1.12 build 031\nAuthors: Thomas Stefanos & Daniel' , '', message.channel)
             return
           } else if(!arg[1]){
+            if(!fs.existsSync('./leaderboards')){
+              fs.mkdirSync('./leaderboards')
+            }
         fs.readFile('./leaderboards/' + message.author.id + '_gamestats.json', error => {
             if (!error) {
             const stats = require('../leaderboards/' + message.author.id + '_gamestats.json')
@@ -79,17 +82,17 @@ module.exports = {
             var romWins = stats["rouletteminorwins"]
             var roAllGames = roWins+roLosses+romWins
             console.log("Successfully loaded leaderboard stats of " + message.author.tag + ".")
-              respond('🎮 Game Leaderboard', message.author.tag + ', here are your Leaderboard stats:\n__**-=Trivia=-**__\nCorrect answers: ' + tWins + "\nWrong answers: " + tLosses + "\nTotal number of Trivia games played: " + tAllGames + '\n__**-=Cryptogram=-**__\nSuccessful digital heists: ' + cWins + "\nInfected computers: " + cLosses + "\nTotal number of computers accessed: " + cAllGames + '\n__**-=Roll Dice Game=-**__\nHigh rolls: ' + rWins + "\nLosing rolls: " + rLosses + "\nSame rolls: " + rTies + "\nTotal number of dice games played: " + rAllGames + '\n__**-=Slots=-**__\nJackpots hit: ' + sWins + "\nMinor prize rolls hit: " + smWins + "\nLosing rolls: " + sLosses + "\nTotal number of slot attempts: " + sAllGames + '\n__**-=Roulette=-**__\nWinning rolls: ' + roWins + "\nMinor winning rolls: " + romWins + "\nLosing rolls: " + roLosses + "\nTotal number of Roulette rolls: " + roAllGames, message.channel)
+              reply('🎮 Game Leaderboard', message.author.tag + ', here are your Leaderboard stats:\n__**-=Trivia=-**__\nCorrect answers: ' + tWins + "\nWrong answers: " + tLosses + "\nTotal number of Trivia games played: " + tAllGames + '\n__**-=Cryptogram=-**__\nSuccessful digital heists: ' + cWins + "\nInfected computers: " + cLosses + "\nTotal number of computers accessed: " + cAllGames + '\n__**-=Roll Dice Game=-**__\nHigh rolls: ' + rWins + "\nLosing rolls: " + rLosses + "\nSame rolls: " + rTies + "\nTotal number of dice games played: " + rAllGames + '\n__**-=Slots=-**__\nJackpots hit: ' + sWins + "\nMinor prize rolls hit: " + smWins + "\nLosing rolls: " + sLosses + "\nTotal number of slot attempts: " + sAllGames + '\n__**-=Roulette=-**__\nWinning rolls: ' + roWins + "\nMinor winning rolls: " + romWins + "\nLosing rolls: " + roLosses + "\nTotal number of Roulette rolls: " + roAllGames, '', message.channel)
               return
             } else if(error) {
-              respond('🎮 Game Leaderboard', 'Your Leaderboard stats do not exist.\nType `leaderboard init` to start competing with other members in the server!', message.channel);
+              reply('🎮 Game Leaderboard', 'Your Leaderboard stats do not exist.\nType `leaderboard init` to start competing with other members in the server!', '', message.channel);
               return;
             }
           });
         }
     }catch(error) {
-      respond('Error', 'Something went wrong.\n'+error+`\nMessage: ${message}\nArgs: ${args}\n`, message.channel)
-      errorlog(error)
+      reply('Error', 'Something went wrong.\n'+error+`\nMessage: ${message}\nArgs: ${args}\n`, '', message.channel)
+      error(error)
       // Your code broke (Leave untouched in most cases)
       console.error('an error has occured', error);
       }
