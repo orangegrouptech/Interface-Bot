@@ -86,7 +86,7 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
 
 				message.react('✅').then(() => message.react('❌'));
 				
-					message.awaitReactions(filter, { max: 1, time: timeToWait, errors: ['time'] })
+					message.awaitReactions(filter, { max: 1, time: timeToWait || 60000, errors: ['time'] })
 					.then(collected => {
 						const reaction = collected.first();
 						if (reaction.emoji.name === '✅') {
@@ -128,7 +128,7 @@ reactOptions = async function(title, content, footer, destination, array, color 
 					await message.react(element)
 				});
 				
-					await message.awaitReactions(filter, { max: 1, time: timeToWait, errors: ['time'] })
+					await message.awaitReactions(filter, { max: 1, time: timeToWait || 60000, errors: ['time'] })
 					.then(collected => {
 						const reaction = collected.first();
 						returnFunction(reaction)
