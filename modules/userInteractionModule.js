@@ -44,30 +44,35 @@ module.exports = {
         throw err
     }
     },
-    prompt(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait = 60000){
+    prompt(message, client, returnFunction, givenOptions){
         try{
-            var RespondEmbed = new Discord.MessageEmbed()
-             RespondEmbed.setTitle(title)
-             RespondEmbed.setDescription(content)
-             if(!destination || destination == '' ){
-                 throw `Invalid Arguments.`
-             }else{
-                 if(!footer == ''){
-                     RespondEmbed.setFooter(footer +' | '+ footerText)
-                 }else{
-                     RespondEmbed.setFooter(footerText)
-                 }
-                 if(color && !color == ''){
-                     RespondEmbed.setColor(color)
-                 }
-                 destination.send(RespondEmbed).then(message =>{
+            let options = JSON.parse(JSON.stringify(givenOptions))
+            let authorInfo = options["author"] ?JSON.parse(JSON.stringify(options["author"])):false
+        try{
+            //File check
+            if(!options.destination || !options.title && !options.content && !options.footer || !options.emojis)
+                    throw 'Invalid options'
+            // END File check
+            const promptEmbed = new Discord.MessageEmbed()
+            .setAuthor(authorInfo["name"] || "", authorInfo["imageURL"] || "")
+            .setTitle(options.title || "")
+            .setDescription(options.content || "")
+            .setFooter(options.footer ? options.footer+' | '+footerText:footerText)
+            .setColor(options.color || "")
+            .setImage(options.imageURL || "")
+            .setThumbnail(options.thumbnailURL || "")
+            let destination = client.channels.cache.get(options.destination) || message.channel
+
+            let timeToWait = options.wait || 60000
+
+                 destination.send(promptEmbed).then(botMessage =>{
                      const filter = (reaction, user) => {
-                         return ['✅', '❌'].includes(reaction.emoji.name) && user.id == messageAuthor.id;
+                         return ['✅', '❌'].includes(reaction.emoji.name) && user.id == message.author.id;
                          };
      
-                     message.react('✅').then(() => message.react('❌'));
+                         botMessage.react('✅').then(() => botMessage.react('❌'));
                      
-                         message.awaitReactions(filter, { max: 1, time: Number(timeToWait), errors: ['time'] })
+                         botMessage.awaitReactions(filter, { max: 1, time: Number(timeToWait), errors: ['time'] })
                          .then(collected => {
                              const reaction = collected.first();
                              if (reaction.emoji.name === '✅') {
@@ -81,7 +86,9 @@ module.exports = {
                              returnFunction('No response was found.');
                          });
                  })
-             } 
+             }catch(err){
+                 error(err)
+             }
          }catch(err){
              throw err
          }
