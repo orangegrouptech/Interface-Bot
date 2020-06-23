@@ -293,5 +293,21 @@ client.on('guildMemberRemove', member => {
 	}
 })
 
+//Message Update
+client.on("messageUpdate", async (oldMessage, newMessage) => {
+	if(featureConfig.modLog == true && featureConfig.modLog_messageEdit == true){
+		const modLogModule = require('./modLogModule.js')
+		return modLogModule.messageEdit(oldMessage, newMessage, client)
+	}
+})
+
+//Message Delete
+client.on("messageDelete", async (message) => {
+	if(featureConfig.modLog == true && featureConfig.modLog_messageDelete == true){
+		const modLogModule = require('./modLogModule.js')
+		return modLogModule.messageDelete(message, client)
+	}
+})
+
 	}
 }
