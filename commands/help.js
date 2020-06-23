@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'help',
-	description: 'List all of my commands or info about a specific command.',
+	description: 'List all available commands.',
 	aliases: ['commands'],
 	usage: '',
 	async execute(message, args, client) {
@@ -24,13 +24,27 @@ module.exports = {
 				await commands.forEach(element => {
 					commandCount = commandCount +1
 					const command = element
-					if(command.staff && command.staff == true && staffPerm == true){
+					if(command.staff && command.staff == true && staffPerm == true || command.mod && command.mod == true && staffPerm == true){
 							data.push(`__**${command.name}**__\n*${command.description || 'No information available.'}*`)
-							helpEmbed.setFooter('Staff')
+							helpEmbed.setFooter(`Staff | ${footerText}`)
 					}
-					if(!command.staff || command.staff == false)
+					if(!command.staff && !command.mod || command.mod == false || command.staff == false )
 							data.push(`__**${command.name}**__\n*${command.description || 'No information available.'}*`)
 				});
+				if(data.join(' ').length > 2048){
+					const newdata = []
+					const newdataStaff = []
+					await commands.forEach(element => {
+						const command = element
+						if(command.staff && command.staff == true && staffPerm == true || command.mod && command.mod == true && staffPerm == true){
+							newdataStaff.push(`${command.name}`)
+						}
+						if(!command.staff && !command.mod || command.mod == false || command.staff == false )
+							newdata.push(`${command.name}`)
+					});
+					await message.channel.send("```======Staff======\n"+newdataStaff.join('\n')+"```")
+					return message.channel.send("```======User======\n"+newdata.join('\n')+"```")
+				}
 				helpEmbed.setDescription(data.sort(function (a, b){
 					if (a < b) return -1;
 					else if (a > b) return 1;
