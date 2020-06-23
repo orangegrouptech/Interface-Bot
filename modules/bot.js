@@ -1,10 +1,12 @@
+const { messageDelete } = require('./modLogModule.js');
+
 //Run app.js first.
 module.exports = {
 	execute(){
 fs = require('fs');
 
-Discord = require('discord.js');
-client = new Discord.Client();
+const Discord = require('discord.js');
+const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 
@@ -22,7 +24,10 @@ console.log('Version '+ version)
 
 
 //Client Login
-client.login(config.token)
+client.login(config.token).catch(err => {
+	console.log('Something went wrong while attempting to log you in!\nMake sure the provided token is valid.\n'+err);
+	return process.exit()
+})
 
 //Bot Startup
 client.once('ready', () => {
@@ -52,7 +57,11 @@ reply = function(title, content, footer, destination, color){
 		if(!destination || destination == '' ){
 			throw `Invalid Arguments.`
 		}else{
+			if(!footer == ''){
 			RespondEmbed.setFooter(footer +' | '+ footerText)
+			}else{
+				RespondEmbed.setFooter(footerText)
+			}
 			if(color && !color == ''){
 				RespondEmbed.setColor(color)
 			}
@@ -67,7 +76,7 @@ reply = function(title, content, footer, destination, color){
 }
 
 //Gives user an option through reactions: ✅ (Yes), ❌ (No)
-prompt = async function(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait){
+prompt = async function(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait = 60000){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -75,7 +84,11 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
 		if(!destination || destination == '' ){
 			throw `Invalid Arguments.`
 		}else{
-			RespondEmbed.setFooter(footer +' | '+ footerText)
+			if(!footer == ''){
+				RespondEmbed.setFooter(footer +' | '+ footerText)
+			}else{
+				RespondEmbed.setFooter(footerText)
+			}
 			if(color && !color == ''){
 				RespondEmbed.setColor(color)
 			}
@@ -86,7 +99,7 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
 
 				message.react('✅').then(() => message.react('❌'));
 				
-					message.awaitReactions(filter, { max: 1, time: timeToWait || 60000, errors: ['time'] })
+					message.awaitReactions(filter, { max: 1, time: Number(timeToWait), errors: ['time'] })
 					.then(collected => {
 						const reaction = collected.first();
 						if (reaction.emoji.name === '✅') {
@@ -107,7 +120,7 @@ prompt = async function(title, content, footer, destination, color, returnFuncti
 }
 
 //User can select through reactions (Provided through array)
-reactOptions = async function(title, content, footer, destination, array, color = '', returnFunction, messageAuthor, timeToWait){
+reactOptions = async function(title, content, footer, destination, array, color = '', returnFunction, messageAuthor, timeToWait = 60000){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -115,7 +128,11 @@ reactOptions = async function(title, content, footer, destination, array, color 
 		if(!destination || destination == '' ){
 			throw `Invalid Arguments.`
 		}else{
-			RespondEmbed.setFooter(footer +' | '+ footerText)
+			if(!footer == ''){
+				RespondEmbed.setFooter(footer +' | '+ footerText)
+				}else{
+					RespondEmbed.setFooter(footerText)
+				}
 			if(color && !color == ''){
 				RespondEmbed.setColor(color)
 			}
@@ -128,7 +145,7 @@ reactOptions = async function(title, content, footer, destination, array, color 
 					await message.react(element)
 				});
 				
-					await message.awaitReactions(filter, { max: 1, time: timeToWait || 60000, errors: ['time'] })
+					await message.awaitReactions(filter, { max: 1, time: Number(timeToWait), errors: ['time'] })
 					.then(collected => {
 						const reaction = collected.first();
 						returnFunction(reaction)
@@ -144,7 +161,7 @@ reactOptions = async function(title, content, footer, destination, array, color 
 }
 
 //Waits for the user to send a message 
-awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait){
+awaitMessageResponse = async function(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait = 60000){
     try{
        var RespondEmbed = new Discord.MessageEmbed()
 		RespondEmbed.setTitle(title)
@@ -152,7 +169,11 @@ awaitMessageResponse = async function(title, content, footer, destination, color
 		if(!destination || destination == '' ){
 			throw `Invalid Arguments.`
 		}else{
-			RespondEmbed.setFooter(footer +' | '+ footerText)
+			if(!footer == ''){
+				RespondEmbed.setFooter(footer +' | '+ footerText)
+				}else{
+					RespondEmbed.setFooter(footerText)
+				}
 			if(color && !color == ''){
 				RespondEmbed.setColor(color)
 			}
@@ -167,14 +188,13 @@ awaitMessageResponse = async function(title, content, footer, destination, color
 					return response.content && response.author.id == messageAuthor.id
 					};
 				
-					botmessage.channel.awaitMessages(filter, { max: 1, time: timeToWait, errors: ['time'] }) //60 seconds by default
+					botmessage.channel.awaitMessages(filter, { max: 1, time: Number(timeToWait), errors: ['time'] }) //60 seconds by default
 					.then(collected => {
 						returnFunction(responseContent, responseMessage)
 					})
 					.catch(collected => {
 						console.log(collected)
 						returnFunction(null);
-						error(collected)
 					});
 			})
 		} 
@@ -218,8 +238,9 @@ for (const file of commandFiles) {
 	}
 	
 client.on('message', async message => {
-	if(fs.existsSync('./modules/customCommandHandler.js')){
-		const commandHandler = require('./customCommandHandler.js')
+	//Put a module called "commandHandler.js" in "modules/" to override built in command handler
+	if(fs.existsSync('./modules/commandHandler.js')){
+		const commandHandler = require('./commandHandler.js')
 		return commandHandler.execute(message, client)
 	}
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
@@ -239,6 +260,7 @@ client.on('message', async message => {
 		reply('', `Incorrect permissions. Required role: <@&${config.staffRoleID}>`, '', message.channel);
 		return;
 	}
+
 	try {
 		command.execute(message, args, client);
 	} catch (err) {
@@ -250,7 +272,7 @@ client.on('message', async message => {
 //Blacklisted text
 client.on('message', message => {
 	if(featureConfig.blacklistedWordsFilter == true){
-	const messageFilter = require('../modules/messageFilterModule.js')
+	const messageFilter = require('./messageFilterModule.js')
 	return messageFilter.execute(message)
 	}
 })
@@ -258,7 +280,7 @@ client.on('message', message => {
 //Member Join
 client.on('guildMemberAdd', member => {
 	if(featureConfig.userLog == true){
-		userLogModule = require('./userLogModule.js')
+		const userLogModule = require('./userLogModule.js')
 		return userLogModule.userJoin(member)
 	}
 })
@@ -266,7 +288,7 @@ client.on('guildMemberAdd', member => {
 //Member leave
 client.on('guildMemberRemove', member => {
 	if(featureConfig.userLog == true){
-		userLogModule = require('./userLogModule.js')
+		const userLogModule = require('./userLogModule.js')
 		return userLogModule.userLeave(member)
 	}
 })
