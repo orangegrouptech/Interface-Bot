@@ -1,3 +1,5 @@
+const Discord = require('discord.js')
+const {MessageEmbed} = require('discord.js')
 module.exports = {
     description:"Handles user interactions",
     awaitResponse(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait = 60000){
@@ -84,33 +86,36 @@ module.exports = {
              throw err
          }
     },
-    async reactOptions(title, content, footer, destination, array, color = '', returnFunction, message, timeToWait = 60000){
-        //Title:String, Content:String, Footer:String, Destination:Channel/DM, Array:[], Color:Hex, ReturnFunction:Function, Message:Message Object, TimeToWait:Number(milliseconds)
+    async reactOptions(message, client, returnFunction, givenOptions){
+            let options = await JSON.parse(JSON.stringify(givenOptions))
+            let authorInfo = options["author"] ?JSON.parse(JSON.stringify(options["author"])):false
         try{
-            var RespondEmbed = new Discord.MessageEmbed()
-             RespondEmbed.setTitle(title)
-             RespondEmbed.setDescription(content)
-             if(!destination || destination == '' ){
-                 throw `Invalid Arguments.`
-             }else{
-                 if(!footer == ''){
-                     RespondEmbed.setFooter(footer +' | '+ footerText)
-                     }else{
-                         RespondEmbed.setFooter(footerText)
-                     }
-                 if(color && !color == ''){
-                     RespondEmbed.setColor(color)
-                 }
-                 destination.send(RespondEmbed).then(async message =>{
-                     const filter = (reaction, user) => {
-                         return array.includes(reaction.emoji.name) && user.id == message.author.id || array.includes(reaction.emoji.id) && user.id == message.author.id;
+            //File check
+            if(!options.destination || !options.title && !options.content && !options.footer || !options.emojis)
+                    throw 'Invalid options'
+            // END File check
+            const promptEmbed = new Discord.MessageEmbed()
+            .setAuthor(authorInfo["name"] || "", authorInfo["imageURL"] || "")
+            .setTitle(options.title || "")
+            .setDescription(options.content || "")
+            .setFooter(options.footer ? options.footer+' | '+footerText:footerText)
+            .setColor(options.color || "")
+            .setImage(options.imageURL || "")
+            .setThumbnail(options.thumbnailURL || "")
+            let destination = client.channels.cache.get(options.destination) || message.channel
+
+            let timeToWait = options.wait || 60000
+
+                destination.send(promptEmbed).then(async botMessage =>{
+                     let filter = (reaction, user) => {
+                         return options["emojis"].includes(reaction.emoji.name) && user.id == message.author.id || options["emojis"].includes(reaction.emoji.id) && user.id == message.author.id;
                          };
      
-                     array.forEach(async element => {
-                         await message.react(element)
-                     });
+                         options["emojis"].forEach(async element => {
+                         await botMessage.react(element)
+                        });
                      
-                         await message.awaitReactions(filter, { max: 1, time: Number(timeToWait), errors: ['time'] })
+                        botMessage.awaitReactions(filter, { max: 1, time: Number(timeToWait), errors: ['time'] })
                          .then(collected => {
                              const reaction = collected.first();
                              returnFunction(reaction)
@@ -118,11 +123,11 @@ module.exports = {
                          .catch(collected => {
                              returnFunction(null);
                          });
-                 })
-             } 
+                 }) 
          }catch(err){
              throw err
          }
+         
     },
     async testJsonSettings(options){
         const json = JSON.parse(JSON.stringify(options))
