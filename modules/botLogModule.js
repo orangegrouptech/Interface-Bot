@@ -1,5 +1,6 @@
 const config = require('../resources/config.json')
 const featureConfig = require('../resources/featuresConfig.json')
+const Discord = require('discord.js')
 module.exports = {
 	description:"Handles bot log events.",
 	errorLog(error, client){
