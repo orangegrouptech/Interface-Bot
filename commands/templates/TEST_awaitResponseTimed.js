@@ -8,6 +8,6 @@ module.exports = {
             reply('', 'Something went wrong! Maybe you didn\'t respond?', '', message.channel);
           }
         }
-        awaitMessageResponse('', 'You said to wait for '+args[0], '', message.channel, '', responseReceived, message.author, Number.bind(args[0]))
+        awaitMessageResponse('', 'You said to wait for '+args[0], '', message.channel, '', responseReceived, message.author, args[0])
         }
     }
