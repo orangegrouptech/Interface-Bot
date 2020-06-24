@@ -1,4 +1,5 @@
 const config = require('../resources/config.json')
+const fs = require('fs')
 module.exports = {
     description:"Handles member join/leave events.",
     userJoin(member){
@@ -15,6 +16,10 @@ module.exports = {
         .setTimestamp()
         const channel = member.guild.channels.cache.get(config.userLog)
 		channel.send(MemberJoinEmbed)
+		if(fs.existsSync('./modules/debugLoggingModule.js')){
+            let debugModule = require('./debugLoggingModule.js')
+            return debugModule.log({action:"userJoin", error:null, note:"userLog"})
+    }
     },
     userLeave(member){
         const MemberJoinEmbed = new Discord.MessageEmbed()
@@ -31,5 +36,9 @@ module.exports = {
         .setTimestamp()
         const channel = member.guild.channels.cache.get(config.userLog)
 		channel.send(MemberJoinEmbed)
+		if(fs.existsSync('./modules/debugLoggingModule.js')){
+            let debugModule = require('./debugLoggingModule.js')
+            return debugModule.log({action:"userLeave", error:null, note:"userLog"})
+    }
     }
 }
