@@ -3,7 +3,7 @@ const { messageDelete } = require('./modLogModule.js');
 //Run app.js first.
 module.exports = {
 	execute(){
-fs = require('fs');
+const fs = require('fs');
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
@@ -39,7 +39,6 @@ client.once('ready', () => {
 error = function(error){
 	const botLogModule = require('../modules/botLogModule.js')
 	botLogModule.errorLog(error, client)
-	
 }
 
 //Debug logging
@@ -135,9 +134,17 @@ client.on('message', async message => {
 	}
 
 	try {
+		if(fs.existsSync('./modules/debugLoggingModule.js')){
+            let debugModule = require('./debugLoggingModule.js')
+            debugModule.log({action:"command", error:null, note:"bot"})
+    }
 		command.execute(message, args, client);
 	} catch (err) {
 		console.error(err);
+		if(fs.existsSync('./modules/debugLoggingModule.js')){
+            let debugModule = require('./debugLoggingModule.js')
+            debugModule.log({action:"error", error:err, note:"bot"})
+    }
 		error(err)
 	}
 });
