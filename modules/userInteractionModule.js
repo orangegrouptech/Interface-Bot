@@ -1,24 +1,28 @@
 const Discord = require('discord.js')
 const {MessageEmbed} = require('discord.js')
+const fs = require('fs')
 module.exports = {
     description:"Handles user interactions",
-    awaitResponse(title, content, footer, destination, color, returnFunction, messageAuthor, timeToWait = 60000){
+    async awaitResponse(message, client, returnFunction, givenOptions){
         //Waits for the user to send a message 
     try{
-       var RespondEmbed = new Discord.MessageEmbed()
-		RespondEmbed.setTitle(title)
-		RespondEmbed.setDescription(content)
-		if(!destination || destination == '' ){
-			throw `Invalid Arguments.`
-		}else{
-			if(!footer == ''){
-				RespondEmbed.setFooter(footer +' | '+ footerText)
-				}else{
-					RespondEmbed.setFooter(footerText)
-				}
-			if(color && !color == ''){
-				RespondEmbed.setColor(color)
-			}
+        let options = await JSON.parse(JSON.stringify(givenOptions))
+        let authorInfo = options["author"] ?JSON.parse(JSON.stringify(options["author"])):false
+        //File check
+        if(!options.title && !options.content && !options.footer || !options.emojis)
+                throw 'Invalid options'
+        // END File check
+        const promptEmbed = new Discord.MessageEmbed()
+        .setAuthor(authorInfo["name"] || "", authorInfo["imageURL"] || "")
+        .setTitle(options.title || "")
+        .setDescription(options.content || "")
+        .setFooter(options.footer ? options.footer+' | '+footerText:footerText)
+        .setColor(options.color || "")
+        .setImage(options.imageURL || "")
+        .setThumbnail(options.thumbnailURL || "")
+        let destination = options.destination ?client.channels.cache.get(options.destination) : message.channel
+
+        let timeToWait = options.wait || 60000
 			destination.send(RespondEmbed).then(botmessage =>{
 				if(!timeToWait){
 					timeToWait = 60000;
@@ -39,18 +43,21 @@ module.exports = {
 						returnFunction(null);
 					});
 			})
-		} 
     }catch(err){
+        if(fs.existsSync('./modules/debugLoggingModule.js')){
+            let debugModule = require('./debugLoggingModule.js')
+            return debugModule.log({action:"error", error:err, note:"userInteraction"})
+    }
         throw err
     }
     },
-    prompt(message, client, returnFunction, givenOptions){
+    async prompt(message, client, returnFunction, givenOptions){
         try{
             let options = JSON.parse(JSON.stringify(givenOptions))
             let authorInfo = options["author"] ?JSON.parse(JSON.stringify(options["author"])):false
         try{
             //File check
-            if(!options.destination || !options.title && !options.content && !options.footer || !options.emojis)
+            if(!options.title && !options.content && !options.footer || !options.emojis)
                     throw 'Invalid options'
             // END File check
             const promptEmbed = new Discord.MessageEmbed()
@@ -61,7 +68,7 @@ module.exports = {
             .setColor(options.color || "")
             .setImage(options.imageURL || "")
             .setThumbnail(options.thumbnailURL || "")
-            let destination = client.channels.cache.get(options.destination) || message.channel
+            let destination = options.destination ?client.channels.cache.get(options.destination) : message.channel
 
             let timeToWait = options.wait || 60000
 
@@ -88,8 +95,16 @@ module.exports = {
                  })
              }catch(err){
                  error(err)
+                 if(fs.existsSync('./modules/debugLoggingModule.js')){
+                    let debugModule = require('./debugLoggingModule.js')
+                    return debugModule.log({action:"error", error:err, note:"userInteraction"})
+            }
              }
          }catch(err){
+            if(fs.existsSync('./modules/debugLoggingModule.js')){
+                let debugModule = require('./debugLoggingModule.js')
+                return debugModule.log({action:"error", error:err, note:"userInteraction"})
+        }
              throw err
          }
     },
@@ -98,7 +113,7 @@ module.exports = {
             let authorInfo = options["author"] ?JSON.parse(JSON.stringify(options["author"])):false
         try{
             //File check
-            if(!options.destination || !options.title && !options.content && !options.footer || !options.emojis)
+            if(!options.title && !options.content && !options.footer || !options.emojis)
                     throw 'Invalid options'
             // END File check
             const promptEmbed = new Discord.MessageEmbed()
@@ -109,7 +124,7 @@ module.exports = {
             .setColor(options.color || "")
             .setImage(options.imageURL || "")
             .setThumbnail(options.thumbnailURL || "")
-            let destination = client.channels.cache.get(options.destination) || message.channel
+            let destination = options.destination ?client.channels.cache.get(options.destination) : message.channel
 
             let timeToWait = options.wait || 60000
 
@@ -132,6 +147,10 @@ module.exports = {
                          });
                  }) 
          }catch(err){
+            if(fs.existsSync('./modules/debugLoggingModule.js')){
+                let debugModule = require('./debugLoggingModule.js')
+                return debugModule.log({action:"error", error:err, note:"userInteraction"})
+        }
              throw err
          }
          
