@@ -40,7 +40,7 @@ module.exports = {
 		.setDescription(`ID: ${oldMember.user.id}`)
 
 		if(oldMember.roles.cache.array().toString() != newMember.roles.cache.array().toString()){
-			memberUpdateEmbed.addField('Role Update',`Previous: ${oldMember.roles.cache.array().toString()}\nUpdated: ${newMember.roles.cache.array().toString()}`, false)
+			memberUpdateEmbed.addField('Role Update',`Previous: ${oldMember.roles.cache.array().toString()}\n\nUpdated: ${newMember.roles.cache.array().toString()}`, false)
 			count = count+1
 		}
 		if(oldNickname != newNickname ){
