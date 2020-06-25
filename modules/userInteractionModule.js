@@ -9,7 +9,7 @@ module.exports = {
         let options = await JSON.parse(JSON.stringify(givenOptions))
         let authorInfo = options["author"] ?JSON.parse(JSON.stringify(options["author"])):false
         //File check
-        if(!options.title && !options.content && !options.footer || !options.emojis)
+        if(!options.title && !options.content && !options.footer)
                 throw 'Invalid options'
         // END File check
         const promptEmbed = new Discord.MessageEmbed()
@@ -23,7 +23,7 @@ module.exports = {
         let destination = options.destination ?client.channels.cache.get(options.destination) : message.channel
 
         let timeToWait = options.wait || 60000
-			destination.send(RespondEmbed).then(botmessage =>{
+			destination.send(promptEmbed).then(botmessage =>{
 				if(!timeToWait){
 					timeToWait = 60000;
 				}
@@ -31,7 +31,7 @@ module.exports = {
 					console.log(response.content)
 					responseContent = response.content
 					responseMessage = response
-					return response.content && response.author.id == messageAuthor.id
+					return response.content && response.author.id == message.author.id
 					};
 				
 					botmessage.channel.awaitMessages(filter, { max: 1, time: Number(timeToWait), errors: ['time'] }) //60 seconds by default
@@ -57,7 +57,7 @@ module.exports = {
             let authorInfo = options["author"] ?JSON.parse(JSON.stringify(options["author"])):false
         try{
             //File check
-            if(!options.title && !options.content && !options.footer || !options.emojis)
+            if(!options.title && !options.content && !options.footer)
                     throw 'Invalid options'
             // END File check
             const promptEmbed = new Discord.MessageEmbed()
