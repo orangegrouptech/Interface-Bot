@@ -13,6 +13,12 @@ module.exports = {
         .filter(file => file.endsWith('.js'));
 
         for (const file of commandFiles) {
+            fs.readFile(file, (err, data) => {
+                if(file.toString().includes("../config.json")){
+                    var newFileContent = file.toString().replace(/..\/config.json/g, '../resources/config.json')
+                    fs.writeFileSync(`./commands/${file}`, newFileContent)
+                }
+            })
             const command = require(`../commands/${file}`)
             const commandName = command.name.substr(0,1)
             if(commandName == commandName.toUpperCase() || commandList.includes(command.name)){
