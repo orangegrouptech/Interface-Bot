@@ -189,5 +189,13 @@ client.on("messageDelete", async (message) => {
 	}
 })
 
+//Member update
+client.on('guildMemberUpdate', ( oldMember, newMember) => {
+	if(featureConfig.modLog == true){
+		const modLogModule = require('./modLogModule.js')
+		return modLogModule.memberUpdate(oldMember, newMember, client)
+	}
+}) 
+
 	}
 }
