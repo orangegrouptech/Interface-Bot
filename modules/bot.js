@@ -18,8 +18,8 @@ const {
 } = require('discord.js')
 
 version = '1.0.0'
-//footerText = `Version ${version}`
-footerText = `Debug Mode`
+footerText = `Version ${version}`
+//footerText = `Debug Mode`
 console.log('Version '+ version)
 
 
