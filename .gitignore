@@ -3,4 +3,5 @@ resources/config.json
 resources/featuresConfig.json
 resources/
 node_modules/
+devResources/
 .DS_Store
